@@ -234,28 +234,6 @@ class BlogController extends Controller
         ]);
     }
 
-    // public function like(Request $request, $id)
-    // {
-    //     $blog = Blog::findOrFail($id);
-
-    //     // Check if the user has already liked the blog
-    //     $existingLike = Like::where('user_id', auth()->id())->where('blog_id', $blog->id)->first();
-    //     if ($existingLike) {
-    //         return response()->json(['message' => 'You have already liked this blog'], 422);
-    //     }
-
-    //     // Create a new like
-    //     $like = new Like();
-    //     $like->user_id = auth()->id();
-    //     $like->blog_id = $blog->id;
-    //     $like->save();
-
-    //     // Increment the likes count in the blog table
-    //     $blog->increment('likes');
-
-    //     return response()->json(['message' => 'Blog liked successfully']);
-    // }
-
     public function like(Request $request, $id)
     {
         $blog = Blog::findOrFail($id);
@@ -275,35 +253,33 @@ class BlogController extends Controller
         // Increment the likes count in the blog table
         $blog->increment('likes');
 
-        // Broadcast the BlogLiked event
-        broadcast(new BlogLiked($blog));
-
         return response()->json(['message' => 'Blog liked successfully']);
     }
 
-    // public function comment(Request $request)
+    // public function like(Request $request, $id)
     // {
-    //     $blog = Blog::find($request->input('blog_id'));
+    //     $blog = Blog::findOrFail($id);
 
-    //     if (!$blog) {
-    //         return response()->json(['error' => 'Blog not found'], 404);
+    //     // Check if the user has already liked the blog
+    //     $existingLike = Like::where('user_id', auth()->id())->where('blog_id', $blog->id)->first();
+    //     if ($existingLike) {
+    //         return response()->json(['message' => 'You have already liked this blog'], 422);
     //     }
 
-    //     $comment = new Comment();
-    //     $comment->user_id = auth()->id();
-    //     $comment->blog_id = $blog->id;
-    //     $comment->content = $request->input('content');
-    //     $comment->save();
+    //     // Create a new like
+    //     $like = new Like();
+    //     $like->user_id = auth()->id();
+    //     $like->blog_id = $blog->id;
+    //     $like->save();
 
-    //     // Debugging statement
-    //     \Log::info('Incrementing count...');
+    //     // Increment the likes count in the blog table
+    //     $blog->increment('likes');
 
-    //     // Update comment count in the database
-    //     $blog->increment('comment_count');
+    //     // Broadcast the BlogLiked event
+    //     broadcast(new BlogLiked($blog));
 
-    //     return response()->json(['message' => 'Comment added successfully']);
+    //     return response()->json(['message' => 'Blog liked successfully']);
     // }
-
 
     public function comment(Request $request)
     {
@@ -325,11 +301,35 @@ class BlogController extends Controller
         // Update comment count in the database
         $blog->increment('comment_count');
 
-        // Broadcast the CommentAdded event
-        broadcast(new CommentAdded($comment));
-
         return response()->json(['message' => 'Comment added successfully']);
     }
+
+
+    // public function comment(Request $request)
+    // {
+    //     $blog = Blog::find($request->input('blog_id'));
+
+    //     if (!$blog) {
+    //         return response()->json(['error' => 'Blog not found'], 404);
+    //     }
+
+    //     $comment = new Comment();
+    //     $comment->user_id = auth()->id();
+    //     $comment->blog_id = $blog->id;
+    //     $comment->content = $request->input('content');
+    //     $comment->save();
+
+    //     // Debugging statement
+    //     \Log::info('Incrementing count...');
+
+    //     // Update comment count in the database
+    //     $blog->increment('comment_count');
+
+    //     // Broadcast the CommentAdded event
+    //     broadcast(new CommentAdded($comment));
+
+    //     return response()->json(['message' => 'Comment added successfully']);
+    // }
 
 
 
